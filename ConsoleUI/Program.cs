@@ -2,6 +2,9 @@
 using System;
 using DataAccess.Concrete;
 using Entities.Concrete;
+using DataAccess.Concrete.EntityFramework;
+using DataAccess.Abstract;
+using Microsoft.Data.SqlClient;
 
 namespace ConsoleUI
 {
@@ -9,17 +12,28 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
-            foreach (var car in carManager.GetAll())
-            {
-                Console.WriteLine(car.Id);
-            }
-            //carManager.Add(new Car {Id=4, BrandId = 1, ColorId = 1, DailyPrice = 150000, ModelYear = 2014, Description = "sahibinden" });
+            CarManager carManager = new CarManager(new EfCarDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            foreach (var car in carManager.GetById(3))
+            //brandManager.Add(new Brand { Name = "Renault" });
+            //colorManager.Add(new Color { Name = "Red" });
+
+            //carManager.Add(new Car {BrandId = 2, ColorId = 1, DailyPrice = 300, ModelYear = 2010, Description = "galeriden" });
+
+            //foreach (var car in carManager.GetCarsByBrandId(1))
+            //{
+            //    Console.WriteLine(car.Id);
+            //}
+            //foreach (var car in carManager.GetAll())
+            //{
+            //    Console.WriteLine(car.Id);
+            //}
+            foreach (var car in carManager.GetCarsByBrandId(1))
             {
                 Console.WriteLine(car.Id);
             }
+            
 
         }
     }

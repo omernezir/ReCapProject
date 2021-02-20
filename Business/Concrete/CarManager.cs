@@ -20,7 +20,23 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
+            if (car.Description.Length<2)
+            {
+                throw new ArgumentOutOfRangeException("Description length must be at least two characters");
+            }
+            if (car.DailyPrice<=0)
+            {
+                throw new ArgumentOutOfRangeException("Daily price must be higher than zero");
+            }
+            
             _carDal.Add(car);
+
+
+        }
+
+        public Car GetById(int Id)
+        {
+            return _carDal.Get(p => p.Id == Id);
         }
 
         public List<Car> GetAll()
@@ -29,9 +45,18 @@ namespace Business.Concrete
            
         }
 
-        public List<Car> GetById(int Id)
+
+
+        public List<Car> GetCarsByBrandId(int Id)
         {
-            return _carDal.GetById(Id);
+            return _carDal.GetAll(p => p.BrandId == Id);
         }
+
+        public List<Car> GetCarsByColorId(int Id)
+        {
+            return _carDal.GetAll(p => p.ColorId == Id);
+        }
+
+
     }
 }
